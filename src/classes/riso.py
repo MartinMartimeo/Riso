@@ -1,3 +1,4 @@
+import socket
 # -*- coding: utf-8 -*-
 # Code By Severin Orth (MartinMartimeo)
 # martin@martimeo.de
@@ -10,9 +11,9 @@ import logging
 import sys
 
 from network.custom_socket import CustomSocket
+from classes.parser import Parser
 from interface.gui import Gui
 
-from PyQt4 import QtGui, QtCore
 
 class Riso(object):
 
@@ -20,7 +21,7 @@ class Riso(object):
 
         self.socket = None
         self.gui = Gui(self.do_write)
-        
+        self.parser = Parser(riso=self)
 
 
     """
@@ -39,6 +40,7 @@ class Riso(object):
     def close(self, rtn=0):
         logging.info("riso.close()")
         if self.socket:
+            self.socket.shutdown(socket.SHUT_RDWR)
             self.socket.handle_close()
             self.socket.t.cancel()
             logging.info("socket.close()")
@@ -62,7 +64,10 @@ class Riso(object):
         New Line
     """
     def on_line(self, line):
-        self.gui.write(line)
+
+        line = self.parser.mud_line(line)
+        if line:
+            self.gui.write(line)
 
     """
         Write
@@ -73,7 +78,9 @@ class Riso(object):
             logging.error("Trying to sent line without socket: %s" % line)
             return
 
-        self.socket.write("%s\n" % line)
+        line = self.parser.user_line(line)
+        if line:
+            self.socket.write("%s\n" % line)
         
     
 
