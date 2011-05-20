@@ -8,6 +8,9 @@ class StartQT4(QtGui.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+    def write(self, text):
+            self.ui.textBrowser.append(text+"\n")
+            
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
