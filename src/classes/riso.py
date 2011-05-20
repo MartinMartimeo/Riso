@@ -20,7 +20,7 @@ class Riso(object):
 
         self.socket = None
         self.app = QtGui.QApplication(sys.argv)
-        self.gui = Gui(self.do_write)
+        self.gui = Gui(parent=None, writeSocketFunc=self.do_write)
         self.gui.show()
         
 
@@ -71,7 +71,9 @@ class Riso(object):
     """
     def do_write(self, line):
 
-        assert(self.socket)
+        if not self.socket:
+            logging.error("Trying to sent line without socket: %s" % line)
+            return
 
         self.socket.write("%s\n" % line)
         
