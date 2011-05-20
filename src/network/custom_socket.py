@@ -2,13 +2,25 @@
 # Use on own risk and fun.
 
 import asynchat
+import asyncore
 import logging
 import socket
 
 from asynchat import async_chat
+from threading import Timer
 
 sockets = {}
 socket_map = {}
+socket_thread = None
+
+def connect_socket(id):
+    global sockets, socket_thread, socket_map
+    
+    sockets[id].connect((sockets[id].host, sockets[id].port))
+
+    if not socket_thread:
+        asyncore.loop(map=socket_map)
+
 
 class CustomSocket(async_chat):
 
@@ -39,8 +51,14 @@ class CustomSocket(async_chat):
         logging.info('Connection#%u from %s:%u' % (self.id, self.lhost, self.lport))
         logging.info('Connection#%u to %s:%u' % (self.id, self.host, self.port))
 
-        # Run
-        self.connect((host, port))
+    """
+        Starts a Timer that will connect the socket after a delay of 0.1
+        in an own Thread
+    """
+    def threaded_connect(self):
+
+        self.t = Timer(0.1, connect_socket, name="Socket-%u" % self.id, args=[self.id])
+        self.t.start()
 
     def collect_incoming_data(self, data):
         self.buffer += data
