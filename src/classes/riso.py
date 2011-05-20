@@ -10,7 +10,7 @@ __author__  = "Severin <MartinMartimeo> Orth <martin@martimeo.de>"
 __date__    = "$20.05.2011 14:30:59$"
 
 from network.custom_socket import CustomSocket
-from interface.test_robert import Gui
+from interface.gui import Gui
 import sys
 from PyQt4 import QtGui, QtCore
 
@@ -19,9 +19,7 @@ class Riso(object):
     def __init__(self):
 
         self.socket = None
-        self.app = QtGui.QApplication(sys.argv)
-        self.gui = Gui(parent=None, writeSocketFunc=self.do_write)
-        self.gui.show()
+        self.gui = Gui(self.do_write)
         
 
 
