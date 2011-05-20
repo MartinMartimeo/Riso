@@ -1,8 +1,7 @@
 from PyQt4 import QtGui
 from ui import *
-import sys
 
-class StartQT4(QtGui.QMainWindow):
+class Gui(QtGui.QMainWindow):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
@@ -11,9 +10,9 @@ class StartQT4(QtGui.QMainWindow):
     def write(self, text):
             self.ui.textBrowser.append(text+"\n")
             
+    
+    
+            
 
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
-    myapp = StartQT4()
-    myapp.show()
-    sys.exit(app.exec_())
+    
