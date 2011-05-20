@@ -35,11 +35,16 @@ class Riso(object):
 
         self.do_connect("mg.mud.de", 23)
         rtn = self.app.exec_()
+        self.close(rtn)
+        
+
+    """
+        Cleanup
+    """
+    def close(self, rtn=0):
         if self.socket:
             self.socket.close()
         sys.exit(rtn)
-
-        
 
 
     """
