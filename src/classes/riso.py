@@ -1,3 +1,4 @@
+from PyQt4.uic.Compiler.qtproxies import QtCore
 
 # -*- coding: utf-8 -*-
 # Code By Severin Orth (MartinMartimeo)
@@ -10,7 +11,7 @@ __date__    = "$20.05.2011 14:30:59$"
 from network.custom_socket import CustomSocket
 from interface.test_robert import Gui
 import sys
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 
 class Riso(object):
 
@@ -20,6 +21,11 @@ class Riso(object):
         self.app = QtGui.QApplication(sys.argv)
         self.gui = Gui()
         self.gui.show()
+        self.gui.connect(self.gui.ui.lineEdit, QtCore.SIGNAL("returnPressed()"), self.callback)
+    
+    def callback(self):
+        self.do_write(self.gui.ui.lineEdit.text())
+        self.gui.ui.lineEdit.setText("")
 
 
     """
