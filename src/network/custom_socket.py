@@ -19,7 +19,10 @@ def connect_socket(id):
     sockets[id].connect((sockets[id].host, sockets[id].port))
 
     if not socket_thread:
+        socket_thread = sockets[id].t
         asyncore.loop(map=socket_map)
+    else:
+        sockets[id].t = socket_thread
 
 
 class CustomSocket(async_chat):
@@ -57,7 +60,7 @@ class CustomSocket(async_chat):
     """
     def threaded_connect(self):
 
-        self.t = Timer(0.1, connect_socket, args=[self.id])
+        self.t = Timer(0.5, connect_socket, args=[self.id])
         self.t.name="Socket-%u" % self.id
         self.t.start()
 
@@ -73,8 +76,10 @@ class CustomSocket(async_chat):
         self.buffer += data
 
     def found_terminator(self):
-        self.handle_line(self.buffer)
-        logging.debug('<<<%s:%u %s' % (self.host, self.port, self.buffer))
+        content = self.buffer.strip()
+        if content:
+            self.handle_line(content)
+            logging.debug('<<<%s:%u %s' % (self.host, self.port, self.buffer))
         self.buffer = ""
 
     def handle_connect(self):
@@ -84,6 +89,10 @@ class CustomSocket(async_chat):
     def handle_line(self, line):
         pass
 
+    def handle_error(self):
+        logging.error('Socket Error on %u' % self.id)
+        self.close()
+        
     def handle_close(self):
         # Unregistration
         global sockets

@@ -1,3 +1,4 @@
+import logging
 from PyQt4.uic.Compiler.qtproxies import QtCore
 
 # -*- coding: utf-8 -*-
@@ -42,8 +43,11 @@ class Riso(object):
         Cleanup
     """
     def close(self, rtn=0):
+        logging.info("riso.close()")
         if self.socket:
-            self.socket.close()
+            self.socket.handle_close()
+            self.socket.t.cancel()
+            logging.info("socket.close()")
         sys.exit(rtn)
 
 
