@@ -1,6 +1,3 @@
-import logging
-from PyQt4.uic.Compiler.qtproxies import QtCore
-
 # -*- coding: utf-8 -*-
 # Code By Severin Orth (MartinMartimeo)
 # martin@martimeo.de
@@ -9,9 +6,12 @@ from PyQt4.uic.Compiler.qtproxies import QtCore
 __author__  = "Severin <MartinMartimeo> Orth <martin@martimeo.de>"
 __date__    = "$20.05.2011 14:30:59$"
 
+import logging
+import sys
+
 from network.custom_socket import CustomSocket
 from interface.gui import Gui
-import sys
+
 from PyQt4 import QtGui, QtCore
 
 class Riso(object):
@@ -29,8 +29,8 @@ class Riso(object):
     def run(self):
 
         self.do_connect("mg.mud.de", 23)
-        rtn = self.app.exec_()
-        self.close(rtn)
+        self.gui.run()
+        self.close(0)
         
 
     """

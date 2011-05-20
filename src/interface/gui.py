@@ -15,6 +15,8 @@ class Gui:
         self.layout.pack_start(self.input)
         self.main.add(self.layout)
         self.main.show_all()
+
+    def run(self):
         gtk.gdk.threads_init()
         gtk.main()
         

@@ -77,6 +77,7 @@ class CustomSocket(async_chat):
 
     def found_terminator(self):
         content = self.buffer.strip()
+        content = "%s\n" % content
         if content:
             self.handle_line(content)
             logging.debug('<<<%s:%u %s' % (self.host, self.port, self.buffer))
@@ -89,9 +90,9 @@ class CustomSocket(async_chat):
     def handle_line(self, line):
         pass
 
-    def handle_error(self):
-        logging.error('Socket Error on %u' % self.id)
-        self.close()
+    #def handle_error(self):
+    #    logging.error('Socket Error on %u' % self.id)
+    #    self.close()
         
     def handle_close(self):
         # Unregistration
