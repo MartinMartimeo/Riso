@@ -7,6 +7,7 @@ import socket
 __author__  = "Severin <MartinMartimeo> Orth <martin@martimeo.de>"
 __date__    = "$20.05.2011 14:30:59$"
 
+import gobject
 import logging
 import sys
 
@@ -38,13 +39,11 @@ class Riso(object):
         Cleanup
     """
     def close(self, rtn=0):
-        logging.info("riso.close()")
         if self.socket:
             self.socket.shutdown(socket.SHUT_RDWR)
             self.socket.handle_close()
             self.socket.t.cancel()
-            logging.info("socket.close()")
-        sys.exit(rtn)
+        sys.exit("Shuting Down")
 
 
     """
@@ -67,7 +66,7 @@ class Riso(object):
 
         line = self.parser.mud_line(line)
         if line:
-            self.gui.write(line)
+            gobject.idle_add(self.gui.write, line)
 
     """
         Write
