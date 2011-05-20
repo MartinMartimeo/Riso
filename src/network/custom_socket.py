@@ -57,7 +57,8 @@ class CustomSocket(async_chat):
     """
     def threaded_connect(self):
 
-        self.t = Timer(0.1, connect_socket, name="Socket-%u" % self.id, args=[self.id])
+        self.t = Timer(0.1, connect_socket, args=[self.id])
+        self.t.name="Socket-%u" % self.id
         self.t.start()
 
     def collect_incoming_data(self, data):

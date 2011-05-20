@@ -20,7 +20,19 @@ class Riso(object):
         self.app = QtGui.QApplication(sys.argv)
         self.gui = Gui()
         self.gui.show()
-        sys.exit(self.app.exec_())
+
+
+    """
+        Main Loop
+    """
+    def run(self):
+
+        self.do_connect("mg.mud.de", 23)
+        rtn = self.app.exec_()
+        if self.socket:
+            self.socket.close()
+        sys.exit(rtn)
+
         
 
 
