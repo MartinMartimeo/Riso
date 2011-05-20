@@ -61,6 +61,14 @@ class CustomSocket(async_chat):
         self.t.name="Socket-%u" % self.id
         self.t.start()
 
+    """
+        Alias for push
+    """
+    def write(self, msg):
+
+        logging.debug('>>>%s:%u %s' % (self.host, self.port, msg))
+        asynchat.async_chat.push(self, "%s\n" % msg)
+
     def collect_incoming_data(self, data):
         self.buffer += data
 
