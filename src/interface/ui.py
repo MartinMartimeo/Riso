@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Fri May 20 14:55:27 2011
+# Created: Fri May 20 15:44:51 2011
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,6 +38,8 @@ class Ui_MainWindow(object):
         self.tab.setObjectName(_fromUtf8("tab"))
         self.textBrowser = QtGui.QTextBrowser(self.tab)
         self.textBrowser.setGeometry(QtCore.QRect(0, 0, 491, 371))
+        self.textBrowser.setStyleSheet(_fromUtf8("background-color: rgb(0, 0, 0);\n"
+"color: rgb(62, 62, 62);"))
         self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
         self.tab_2 = QtGui.QWidget()
