@@ -19,13 +19,9 @@ class Riso(object):
 
         self.socket = None
         self.app = QtGui.QApplication(sys.argv)
-        self.gui = Gui()
+        self.gui = Gui(self.do_write)
         self.gui.show()
-        self.gui.connect(self.gui.ui.lineEdit, QtCore.SIGNAL("returnPressed()"), self.callback)
-    
-    def callback(self):
-        self.do_write(self.gui.ui.lineEdit.text())
-        self.gui.ui.lineEdit.setText("")
+        
 
 
     """
