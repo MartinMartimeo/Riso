@@ -8,7 +8,7 @@ class Gui(QtGui.QMainWindow):
         self.ui.setupUi(self)
 
     def write(self, text):
-            self.ui.textBrowser.append(text+"\n")
+            self.ui.textBrowser.append(text)
             
     
     
