@@ -9,6 +9,7 @@ class Gui(QtGui.QMainWindow):
 
     def write(self, text):
             self.ui.textBrowser.append(text)
+            self.ui.textBrowser.ensureCursorVisible()
             
     
     
