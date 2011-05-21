@@ -14,10 +14,11 @@ class Gui:
         self.bgcolor = self.builder.get_object("colorselection1")
         self.textcolor = self.builder.get_object("colorselection2")
         self.input = self.builder.get_object("input")
-        self.buffer = gtk.TextBuffer()
+        self.buffer = self.output.get_buffer()
         self.output.set_buffer(self.buffer)
         self.output.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("gray"))
         self.output.modify_base(gtk.STATE_NORMAL, gtk.gdk.Color(0,0,0))
+        self.end_text = self.buffer.create_mark("end", self.buffer.get_end_iter(), False)
         
         self.mainwindow.show_all()
         
@@ -32,8 +33,7 @@ class Gui:
         
     def write(self, text):
         self.buffer.insert_at_cursor(str(text))
-        adj = self.outputbox.get_vadjustment()
-        adj.set_value(adj.get_upper())
+        self.output.scroll_to_mark(self.end_text, 0.05, True, 0.0, 1.0)
         
     def on_input_return(self, data):
         text = self.input.get_text()
