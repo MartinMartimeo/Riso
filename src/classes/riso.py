@@ -1,4 +1,3 @@
-import socket
 # -*- coding: utf-8 -*-
 # Code By Severin Orth (MartinMartimeo)
 # martin@martimeo.de
@@ -7,8 +6,8 @@ import socket
 __author__  = "Severin <MartinMartimeo> Orth <martin@martimeo.de>"
 __date__    = "$20.05.2011 14:30:59$"
 
-import gobject
 import logging
+import socket
 import sys
 
 from network.custom_socket import CustomSocket
@@ -41,10 +40,14 @@ class Riso(object):
     """
     def close(self, rtn=0):
         if self.socket:
-            self.socket.settimeout(0.1)
-            self.socket.shutdown(socket.SHUT_RDWR)
-            self.socket.handle_close()
-            self.socket.t.cancel()
+            try:
+                self.socket.shutdown(socket.SHUT_RDWR)
+                self.socket.handle_close()
+                self.socket.t.cancel()
+            except socket.error:
+                pass
+            finally:
+                self.socket = None
         sys.exit("Shuting Down")
 
 

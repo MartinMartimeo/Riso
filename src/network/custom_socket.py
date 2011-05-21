@@ -1,12 +1,11 @@
+# -*- coding: utf-8 -*-
 # This script comes without any warranty or support.
 # Use on own risk and fun.
 
-import asynchat
 import asyncore
 import logging
 import socket
 
-from asynchat import async_chat
 from threading import Timer
 
 sockets = {}
@@ -25,17 +24,16 @@ def connect_socket(id):
         sockets[id].t = socket_thread
 
 
-class CustomSocket(async_chat):
+class CustomSocket(asyncore.dispatcher):
 
     def __init__(self, host, port, lhost='0.0.0.0'):
 
         # Settings
-        self.set_terminator('\n')
-        self.buffer = ""
+        self.write_buffer = ""
 
         # Initalisation
         global socket_map
-        asynchat.async_chat.__init__(self, map=socket_map)
+        asyncore.dispatcher.__init__(self, map=socket_map)
 
         # Registration
         global sockets
@@ -65,23 +63,37 @@ class CustomSocket(async_chat):
         self.t.start()
 
     """
-        Alias for push
+        Füge Daten zum Buffer hinzu
     """
     def write(self, msg):
 
         logging.debug('>>>%s:%u %s' % (self.host, self.port, msg))
-        asynchat.async_chat.push(self, "%s\n" % msg)
+        self.write_buffer += "%s\n" % msg
 
-    def collect_incoming_data(self, data):
-        self.buffer += data
+    """
+        Teile Loop mit, dass wir schreiben wollen
+    """
+    def writeable(self):
+        return len(self.write_buffer)
 
-    def found_terminator(self):
-        content = self.buffer.strip()
-        content = "%s\n" % content
-        if content:
-            self.handle_line(content)
-            logging.debug('<<<%s:%u %s' % (self.host, self.port, self.buffer))
-        self.buffer = ""
+    """
+        Schreibprozess
+    """
+    def handle_write(self):
+        sent = self.send(self.write_buffer)
+        self.write_buffer = self.write_buffer[sent:]
+
+
+    """
+        Leseprozess
+    """
+    def handle_read(self):
+        buffer = unicode("%s" % self.recv(8192), errors='replace')
+        # buffer = buffer.strip()
+        if buffer:
+            self.handle_line(buffer)
+            logging.debug('<<<%s:%u %s' % (self.host, self.port, buffer))
+        buffer = ""
 
     def handle_connect(self):
         # Logging
