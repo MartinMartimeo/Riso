@@ -40,6 +40,7 @@ class Riso(object):
     """
     def close(self, rtn=0):
         if self.socket:
+            self.socket.settimeout(0.1)
             self.socket.shutdown(socket.SHUT_RDWR)
             self.socket.handle_close()
             self.socket.t.cancel()
