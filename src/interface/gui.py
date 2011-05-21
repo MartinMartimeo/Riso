@@ -11,8 +11,7 @@ class Gui:
         self.mainwindow = self.builder.get_object("window1")
         self.outputbox = self.builder.get_object("outputbox")
         self.output = self.builder.get_object("output")
-        self.bgcolor = self.builder.get_object("colorselection1")
-        self.textcolor = self.builder.get_object("colorselection2")
+        self.color = self.builder.get_object("colorselection")
         self.input = self.builder.get_object("input")
         self.buffer = self.output.get_buffer()
         self.output.set_buffer(self.buffer)
@@ -40,13 +39,12 @@ class Gui:
         self.writeFunc(text)
         self.input.set_text("")
         
-    def bg_color_changed(self, data):
-        color = self.bgcolor.get_current_color()
-        self.output.modify_base(gtk.STATE_NORMAL, color)
-        
-    def text_color_changed(self, data):
-        color = self.textcolor.get_current_color()
-        self.output.modify_text(gtk.STATE_NORMAL, color)
+    def color_changed(self, data):
+        color = self.color.get_current_color()
+        if self.builder.get_object("texttoggle").get_active():
+            self.output.modify_text(gtk.STATE_NORMAL, color)
+        else:
+            self.output.modify_base(gtk.STATE_NORMAL, color)
         
     
     
