@@ -14,6 +14,7 @@ import sys
 from network.custom_socket import CustomSocket
 from classes.parser import Parser
 from interface.gui import Gui
+from gtk import gdk
 
 
 class Riso(object):
@@ -67,7 +68,10 @@ class Riso(object):
 
         line = self.parser.mud_line(line)
         if line:
-            gobject.idle_add(self.gui.write, line)
+            #gobject.idle_add(self.gui.write, line)
+            gdk.threads_enter()
+            self.gui.write(line)
+            gdk.threads_leave()
 
     """
         Write
