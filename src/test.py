@@ -1,4 +1,3 @@
-import socket
 # -*- coding: utf-8 -*-
 # Code By Severin Orth (MartinMartimeo)
 # martin@martimeo.de
@@ -10,10 +9,21 @@ __date__    = "$20.05.2011 13:33:50$"
 import logging
 import sys
 
-from network.custom_socket import CustomSocket
+from classes.config_manager import ConfigManager
 
 # Testing
+c = ConfigManager("test")
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format='%(asctime)s %(threadName)-10s %(levelname)-8s %(message)s')
-socket = CustomSocket('mg.mud.de', 23)
-socket.threaded_connect()
+i = c["tested"]
+if not i:
+    i = 0
+i += 1
+c["tested"] = i
+
+
+
+d = ConfigManager("project")
+
+print d["name"]
+
+c["test/name"] = d["name"]

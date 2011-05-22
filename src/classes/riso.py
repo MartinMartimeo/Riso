@@ -85,6 +85,7 @@ class Riso(object):
             return
 
         line = self.parser.user_line(line)
+
         if line:
             self.socket.write("%s\n" % line)
         
