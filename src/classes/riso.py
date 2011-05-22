@@ -46,8 +46,7 @@ class Riso(object):
                 self.socket.t.cancel()
             except socket.error:
                 pass
-            finally:
-                self.socket = None
+            self.socket = None
         sys.exit("Shuting Down")
 
 

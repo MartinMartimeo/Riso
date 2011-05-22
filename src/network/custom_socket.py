@@ -68,20 +68,21 @@ class CustomSocket(asyncore.dispatcher):
     def write(self, msg):
 
         logging.debug('>>>%s:%u %s' % (self.host, self.port, msg))
-        self.write_buffer += "%s\n" % msg
+        self.write_buffer += "%s" % msg
 
     """
         Teile Loop mit, dass wir schreiben wollen
     """
     def writeable(self):
-        return len(self.write_buffer)
+        return (len(self.write_buffer) > 0)
 
     """
         Schreibprozess
     """
     def handle_write(self):
-        sent = self.send(self.write_buffer)
-        self.write_buffer = self.write_buffer[sent:]
+        if self.write_buffer:
+            sent = self.send("%s" % self.write_buffer)
+            self.write_buffer = self.write_buffer[sent:]
 
 
     """
