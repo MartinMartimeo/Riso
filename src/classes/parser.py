@@ -32,14 +32,16 @@ class Parser(object):
     """
         Line of Mud
     """
-    def mud_line(self, line):
+    def mud_line(self, data):
 
-        for dict in self._aquires.values():
-            if not dict:
-                continue
-            line = dict['function'](event=dict['event'], id=dict['id'], riso=self._riso, parser=self, line=line)
-
-        return line
+        lines = []
+        for line in data.splitlines():
+            for dict in self._aquires.values():
+                if not dict:
+                    continue
+                line = dict['function'](event=dict['event'], id=dict['id'], riso=self._riso, parser=self, line=line)
+            lines.append(line)
+        return lines
 
 
     """
@@ -47,10 +49,15 @@ class Parser(object):
     """
     def user_line(self, line):
 
+        args = line.split()
+
+        if not args:
+            return line
+
         for (command, list) in self._user_commands.items():
-            if line.startswith(command):
+            if args[0] == command:
                 for dict in list.values():
-                    line = dict['function'](event=dict['event'], id=dict['id'], riso=self._riso, parser=self, line=line)
+                    line = dict['function'](event=dict['event'], id=dict['id'], riso=self._riso, parser=self, command=command, args=args)
 
         return line
 

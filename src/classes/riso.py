@@ -74,11 +74,13 @@ class Riso(object):
     """
     def on_line(self, line):
 
-        line = self.parser.mud_line(line)
-        if line:
+        lines = self.parser.mud_line(line)
+        if lines:
             #gobject.idle_add(self.gui.write, line)
             gdk.threads_enter()
-            self.gui.write(line)
+            for line in lines:
+                if line:
+                    self.gui.write("%s\n" % line)
             gdk.threads_leave()
 
     """
@@ -90,10 +92,10 @@ class Riso(object):
             logging.error("Trying to sent line without socket: %s" % line)
             return
 
-        line = self.parser.user_line(line)
-
+        self.gui.write(line)
+        line = "%s\n" % self.parser.user_line(line)        
         if line:
-            self.socket.write("%s\n" % line)
+            self.socket.write("%s" % line)
         
     
 

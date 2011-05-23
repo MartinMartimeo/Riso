@@ -13,3 +13,19 @@
 
   database:
     dns: sqlite:///riso.db
+
+  room:
+    desc:
+      release_parse: "Es gibt zwei sichtbare Ausgaenge:"
+      release_ende: "Du bist nun im \"Lang\"modus"
+      release_ignore: "Du bist nun im \"Kurz\"modus"
+      release_ignore_values:
+        - "und"
+      release_strip: ">., "
+    directions:
+      -
+        direction: n
+        alias: ["kurz", "n", "lang", "schau"]
+      -
+        direction: s
+        alias: ["kurz", "s", "lang", "schau"]
