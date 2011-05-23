@@ -11,6 +11,7 @@ import socket
 import sys
 
 from network.custom_socket import CustomSocket
+from classes.config_manager import ConfigManager
 from classes.parser import Parser
 from interface.gui import Gui
 from gtk import gdk
@@ -21,16 +22,17 @@ class Riso(object):
     def __init__(self):
 
         self.socket = None
+        self.config = ConfigManager('project')
         self.gui = Gui(self.do_write)
         self.parser = Parser(riso=self)
-
 
     """
         Main Loop
     """
     def run(self):
 
-        self.do_connect("mg.mud.de", 23)
+        if self.config['connect/autoconnect']:
+            self.do_connect(self.config['connect/server'], self.config['connect/port'])
         self.gui.run()
         self.close(0)
         
@@ -58,7 +60,11 @@ class Riso(object):
         if self.socket:
             self.socket.close()
 
-        self.socket = CustomSocket(host, port)
+        lhost = None
+        if self.config['connect/bind']:
+            lhost = self.config['connect/bind']
+
+        self.socket = CustomSocket(host=host, port=port, lhost=lhost, ignore_unknown_chars=self.config['socket/ignore_unknown_chars'])
         self.socket.riso = self
         self.socket.handle_line = self.on_line
         self.socket.threaded_connect()

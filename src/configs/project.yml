@@ -1,3 +1,15 @@
 ## YAML Template.
 ---
   name: Riso
+
+  connect:
+    autoconnect: True
+    bind: 0.0.0.0
+    server: mg.mud.de
+    port: 23
+
+  socket:
+    ignore_unknown_chars: True
+
+  database:
+    dns: sqlite:///riso.db

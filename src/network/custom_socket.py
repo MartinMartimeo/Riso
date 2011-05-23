@@ -26,10 +26,13 @@ def connect_socket(id):
 
 class CustomSocket(asyncore.dispatcher):
 
-    def __init__(self, host, port, lhost='0.0.0.0'):
+    def __init__(self, host, port, lhost='0.0.0.0', ignore_unknown_chars=True):
 
         # Settings
         self.write_buffer = ""
+
+        # Configuration
+        self.ignore_unknown_chars = ignore_unknown_chars
 
         # Initalisation
         global socket_map
@@ -89,7 +92,10 @@ class CustomSocket(asyncore.dispatcher):
         Leseprozess
     """
     def handle_read(self):
-        buffer = unicode("%s" % self.recv(8192), errors='replace')
+        if self.ignore_unknown_chars:
+            buffer = unicode("%s" % self.recv(8192), errors='ignore')
+        else:
+            buffer = unicode("%s" % self.recv(8192), errors='replace')
         # buffer = buffer.strip()
         if buffer:
             self.handle_line(buffer)
