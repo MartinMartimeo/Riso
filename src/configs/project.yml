@@ -1,31 +1,18 @@
-## YAML Template.
----
-  name: Riso
-
-  connect:
-    autoconnect: True
-    bind: 0.0.0.0
-    server: mg.mud.de
-    port: 23
-
-  socket:
-    ignore_unknown_chars: True
-
-  database:
-    dns: sqlite:///riso.db
-
-  room:
-    desc:
-      release_parse: "Es gibt zwei sichtbare Ausgaenge:"
-      release_ende: "Du bist nun im \"Lang\"modus"
-      release_ignore: "Du bist nun im \"Kurz\"modus"
-      release_ignore_values:
-        - "und"
-      release_strip: ">., "
-    directions:
-      -
-        direction: n
-        alias: ["kurz", "n", "lang", "schau"]
-      -
-        direction: s
-        alias: ["kurz", "s", "lang", "schau"]
+connect: {autoconnect: true, bind: 0.0.0.0, port: 23, server: mg.mud.de}
+database: {dns: 'sqlite:///riso.db'}
+gui:
+  color: {bg: '#ffff00000000', text: '#bebebebebebe'}
+name: Riso
+room:
+  desc:
+    release_ende: Du bist nun im "Lang"modus
+    release_ignore: Du bist nun im "Kurz"modus
+    release_ignore_values: [und]
+    release_parse: 'Es gibt zwei sichtbare Ausgaenge:'
+    release_strip: '>., '
+  directions:
+  - alias: [kurz, n, lang, schau]
+    direction: n
+  - alias: [kurz, s, lang, schau]
+    direction: s
+socket: {ignore_unknown_chars: true}

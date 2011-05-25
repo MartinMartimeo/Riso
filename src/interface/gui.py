@@ -2,8 +2,15 @@ import gtk.gdk
 import logging
 from gtk import *
 
+__author__  = "Robert Heumueller <robert@heum.de"
+__date__    = "$25.05.2011 12:00:00$"
+
+
 class Gui:
     def __init__(self, writeFunc):
+        from classes.riso import RisoConfigManager
+        self.config = RisoConfigManager
+        
         self.writeFunc = writeFunc
         self.builder = gtk.Builder()
         self.builder.add_from_file("interface/ui.glade")
@@ -16,10 +23,12 @@ class Gui:
         self.input = self.builder.get_object("input")
         self.buffer = self.output.get_buffer()
         self.output.set_buffer(self.buffer)
-        self.output.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("gray"))
-        self.output.modify_base(gtk.STATE_NORMAL, gtk.gdk.Color(0,0,0))
+        if self.config["gui/color"] is None:
+            self.config["gui/color/bg"] = gtk.gdk.color_parse("black").to_string()
+            self.config["gui/color/text"] = gtk.gdk.color_parse("grey").to_string()
+        self.output.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.config["gui/color/text"]))
+        self.output.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.config["gui/color/bg"]))
         self.end_text = self.buffer.create_mark("end", self.buffer.get_end_iter(), False)
-        
         self.mainwindow.show_all()
         
 
@@ -45,8 +54,16 @@ class Gui:
         color = self.color.get_current_color()
         if self.builder.get_object("texttoggle").get_active():
             self.output.modify_text(gtk.STATE_NORMAL, color)
+            self.config["gui/color/text"] = color.to_string()
         else:
             self.output.modify_base(gtk.STATE_NORMAL, color)
+            self.config["gui/color/bg"] = color.to_string()
+            
+    def on_bgtoggle_toggle(self, data):
+        if self.builder.get_object("texttoggle").get_active():
+            self.color.set_current_color(gtk.gdk.color_parse(self.config["gui/color/text"]))
+        else:
+            self.color.set_current_color(gtk.gdk.color_parse(self.config["gui/color/bg"]))
         
     
     
