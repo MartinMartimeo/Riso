@@ -1,7 +1,7 @@
 connect: {autoconnect: true, bind: 0.0.0.0, port: 23, server: mg.mud.de}
 database: {dns: 'sqlite:///riso.db'}
 gui:
-  color: {bg: '#ffff00000000', text: '#bebebebebebe'}
+  color: {bg: '#0fa30d440d44', text: '#bfbfbfbfbfbf'}
 name: Riso
 room:
   desc:

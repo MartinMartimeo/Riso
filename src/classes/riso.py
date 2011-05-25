@@ -63,6 +63,10 @@ class Riso(object):
             except socket.error:
                 pass
             self.socket = None
+        if not self.gui.destroyed:
+            gdk.threads_enter()
+            self.gui.on_window1_destroy(self)
+            gdk.threads_leave()
         sys.exit("Shuting Down")
 
 
