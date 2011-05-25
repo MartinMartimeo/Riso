@@ -16,3 +16,4 @@ room:
   - alias: [kurz, s, lang, schau]
     direction: s
 socket: {ignore_unknown_chars: true}
+quit: {release: "schlafe ein", aquire: "Dieser Befehl beendet Deine Verbindung mit MorgenGrauen."}
