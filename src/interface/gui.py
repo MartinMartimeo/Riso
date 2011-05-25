@@ -11,6 +11,7 @@ class Gui:
         self.mainwindow = self.builder.get_object("window1")
         self.outputbox = self.builder.get_object("outputbox")
         self.output = self.builder.get_object("output")
+        self.output.set_editable(False)
         self.color = self.builder.get_object("colorselection")
         self.input = self.builder.get_object("input")
         self.buffer = self.output.get_buffer()
@@ -31,6 +32,7 @@ class Gui:
         gtk.main_quit()
         
     def write(self, text):
+        self.buffer.place_cursor(self.buffer.get_end_iter())
         self.buffer.insert_at_cursor(str(text))
         self.output.scroll_to_mark(self.end_text, 0.05, True, 0.0, 1.0)
         
