@@ -5,15 +5,15 @@ from setuptools import setup,find_packages
 
 setup (
   name = 'Riso',
-  version = '0.1-alpha',
+  version = '0.1-alpha2',
   packages = find_packages(),
 
   # Declare your packages' dependencies here, for eg:
-  install_requires=['threading', 'gtk', 'yaml'],
+  install_requires=['threading', 'gtk', 'yaml', 'sqlalchemy'],
 
   # Fill in these to make your Egg ready for upload to
   # PyPI
-  author = 'Severin Orth & Robert Heumueller',
+  author = 'Robert Heumueller & Severin Orth',
   author_email = 'riso@ansha.eu',
 
   summary = 'Python Mud Client',
