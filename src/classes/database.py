@@ -19,8 +19,6 @@ class DatabaseError(Exception):
 class DatabaseObject(object):
     pass
 
-DatabaseBase = sqlalchemy.ext.declarative.declarative_base()
-
 class Database(object):
 
     """
@@ -45,8 +43,8 @@ class Database(object):
         self.db = create_engine(self.dns)
 
         # Bind Base and Metadata
-        global DatabaseBase
-        self.base = DatabaseBase
+        from classes.dbbase import DbBase
+        self.base = DbBase
         self.metadata = self.base.metadata
 
         # Create Session
