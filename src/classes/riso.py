@@ -17,6 +17,7 @@ from gtk import gdk
 from interface.gui import Gui
 from network.custom_socket import CustomSocket
 
+RisoConfigManager = None
 
 class Riso(object):
 
@@ -26,8 +27,10 @@ class Riso(object):
         self.socket = None
 
         # Initalisate ConfigManager
+        global RisoConfigManager
         self.config = ConfigManager('project')
-        
+        RisoConfigManager = self.config
+
         # Connect to Database, adds self.data for queriyng
         self.database = Database(riso=self)
 
