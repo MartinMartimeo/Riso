@@ -55,6 +55,8 @@ class Riso(object):
         Cleanup
     """
     def close(self, rtn=0):
+
+        # Socket Destroyment
         if self.socket:
             try:
                 self.socket.shutdown(socket.SHUT_RDWR)
@@ -63,10 +65,14 @@ class Riso(object):
             except socket.error:
                 pass
             self.socket = None
+
+        # Destroy Gui
         if not self.gui.destroyed:
             gdk.threads_enter()
             self.gui.on_window1_destroy(self)
             gdk.threads_leave()
+
+        # Leave sys
         sys.exit("Shuting Down")
 
 
@@ -94,7 +100,6 @@ class Riso(object):
 
         lines = self.parser.mud_line(line)
         if lines:
-            #gobject.idle_add(self.gui.write, line)
             gdk.threads_enter()
             for line in lines:
                 if line:
