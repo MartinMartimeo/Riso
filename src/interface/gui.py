@@ -2,6 +2,10 @@ import gtk.gdk
 import logging
 from gtk import *
 
+__author__  = "Robert Heumueller <robert@heum.de"
+__date__    = "$25.05.2011 12:00:00$"
+
+
 class Gui:
     def __init__(self, writeFunc):
         self.writeFunc = writeFunc
@@ -42,6 +46,7 @@ class Gui:
         self.input.set_text("")
         
     def color_changed(self, data):
+        
         color = self.color.get_current_color()
         if self.builder.get_object("texttoggle").get_active():
             self.output.modify_text(gtk.STATE_NORMAL, color)
