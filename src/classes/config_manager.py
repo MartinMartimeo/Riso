@@ -26,6 +26,14 @@ class ConfigManager(object):
         else:
             self._data = {}
 
+
+    def __call__(self, key, default=None):
+
+        value = self.__getitem__(key)
+        if value is None:
+            return default
+        return value
+
     def __getattribute__(self, key):
 
         if key.startswith("_"):

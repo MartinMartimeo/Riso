@@ -10,20 +10,31 @@ import logging
 import socket
 import sys
 
-from network.custom_socket import CustomSocket
 from classes.config_manager import ConfigManager
+from classes.database import Database
 from classes.parser import Parser
-from interface.gui import Gui
 from gtk import gdk
+from interface.gui import Gui
+from network.custom_socket import CustomSocket
 
 
 class Riso(object):
 
     def __init__(self):
 
+        # Our Socket
         self.socket = None
+
+        # Initalisate ConfigManager
         self.config = ConfigManager('project')
+        
+        # Connect to Database, adds self.data for queriyng
+        self.database = Database(riso=self)
+
+        # Gui
         self.gui = Gui(self.do_write)
+
+        # Parser
         self.parser = Parser(riso=self)
 
     """
