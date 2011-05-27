@@ -11,7 +11,8 @@ class EventSchau(event.Event):
 
     def __init__(self, parser):
 
-        self.config = ConfigManager('project')
+        from classes.riso import RisoConfigManager
+        self.config = RisoConfigManager
         self.commands = {}
         for command in self.config['room/directions']:
             parser.register_user_command(self, self.room, command['direction'])

@@ -45,7 +45,7 @@ class DbRoomObject(DbBase):
     id = Column(Integer, primary_key=True, nullable=False)
 
     room_id = Column(Integer, ForeignKey("room.id"), nullable=False)
-    room = relationship("DbRoom", backref="directions")
+    room = relationship("DbRoom", backref="objects")
 
     name = Column(Text, nullable=False)
 

@@ -10,6 +10,7 @@ class Gui:
     def __init__(self, writeFunc):
         from classes.riso import RisoConfigManager
         self.config = RisoConfigManager
+        self.destroyed = False
         
         self.writeFunc = writeFunc
         self.builder = gtk.Builder()
@@ -37,6 +38,7 @@ class Gui:
         gtk.main()
         
     def on_window1_destroy(self, data ):
+        self.destroyed = True
         logging.info("Shutting down GTK")
         gtk.main_quit()
         
