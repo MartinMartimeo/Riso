@@ -324,9 +324,12 @@
           <object class="GtkEntry" id="input">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="has_focus">True</property>
+            <property name="is_focus">True</property>
             <property name="invisible_char">●</property>
             <signal name="activate" handler="on_input_return" swapped="no"/>
             <signal name="key-press-event" handler="up_key_pressed" swapped="no"/>
+            <signal name="focus-out-event" handler="on_focus_lost" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
