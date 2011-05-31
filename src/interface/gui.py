@@ -31,6 +31,8 @@ class Gui:
         self.output.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.config["gui/color/bg"]))
         self.end_text = self.buffer.create_mark("end", self.buffer.get_end_iter(), False)
         self.mainwindow.show_all()
+        self.inputcache_stack1 = []
+        self.inputcache_stack2 = []
         
 
     def run(self):
@@ -51,6 +53,13 @@ class Gui:
         text = self.input.get_text()
         self.writeFunc(text)
         self.input.set_text("")
+        self.inputcache_stack1.append(text)
+        
+    def up_key_pressed(self, widget, data2):
+        self.input.grab_focus()
+        if gtk.gdk.keyval_name(data2.keyval) == "Up":
+            logging.debug("Go")
+        
         
     def color_changed(self, data):
         color = self.color.get_current_color()

@@ -326,6 +326,7 @@
             <property name="can_focus">True</property>
             <property name="invisible_char">●</property>
             <signal name="activate" handler="on_input_return" swapped="no"/>
+            <signal name="key-press-event" handler="up_key_pressed" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
