@@ -33,6 +33,7 @@ class Gui:
         self.mainwindow.show_all()
         self.inputcache_stack1 = []
         self.inputcache_stack2 = []
+        self.lockfocus = False
         
 
     def run(self):
@@ -49,27 +50,31 @@ class Gui:
         self.buffer.insert_at_cursor(str(text))
         self.output.scroll_to_mark(self.end_text, 0.05, True, 0.0, 1.0)
         
-    def on_input_return(self, data):
+    def on_input_return_pressed(self, data):
         text = self.input.get_text()
         self.writeFunc(text)
         self.input.set_text("")
         self.inputcache_stack1.extend(self.inputcache_stack2)
         self.inputcache_stack2 = []
-        self.inputcache_stack1.append(text)
+        if text is not "":
+            self.inputcache_stack1.append(text)
         
-    def up_key_pressed(self, widget, data2):
+    def on_input_key_pressed(self, widget, data2):
         if gtk.gdk.keyval_name(data2.keyval) == "Up":
             if len(self.inputcache_stack1) > 0:
                 self.inputcache_stack2.append(self.input.get_text())
                 self.input.set_text(self.inputcache_stack1.pop())
-                
+                                    
         if gtk.gdk.keyval_name(data2.keyval) == "Down":
             if len(self.inputcache_stack2) > 0:
                 self.inputcache_stack1.append(self.input.get_text())
                 self.input.set_text(self.inputcache_stack2.pop())
+        self.lockfocus = True
                 
-    def on_focus_lost(self, widget, data):
-        self.input.grab_focus()
+    def on_input_focus_lost(self, widget, data):
+        if self.lockfocus:
+            self.input.grab_focus()
+            self.lockfocus = False
         
         
     def color_changed(self, data):
