@@ -3,7 +3,6 @@
 
 import logging
 
-from classes.config_manager import ConfigManager
 from events import event
 
 class EventSchau(event.Event):
