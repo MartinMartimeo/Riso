@@ -1,8 +1,10 @@
 connect: {autoconnect: true, bind: 0.0.0.0, port: 23, server: mg.mud.de}
 database: {dns: 'sqlite:///riso.db'}
 gui:
-  color: {bg: '#0fa30d440d44', text: '#bfbfbfbfbfbf'}
+  color: {bg: '#000000000000', text: '#bfbfbfbfbfbf'}
 name: Riso
+quit: {aquire: Dieser Befehl beendet Deine Verbindung mit MorgenGrauen., release: schlafe
+    ein}
 room:
   desc:
     release_ende: Du bist nun im "Lang"modus
@@ -16,4 +18,3 @@ room:
   - alias: [kurz, s, lang, schau]
     direction: s
 socket: {ignore_unknown_chars: true}
-quit: {release: "schlafe ein", aquire: "Dieser Befehl beendet Deine Verbindung mit MorgenGrauen."}

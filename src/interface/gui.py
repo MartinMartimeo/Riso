@@ -11,7 +11,7 @@ class Gui:
         from classes.riso import RisoConfigManager
         self.config = RisoConfigManager
         self.destroyed = False
-        
+
         self.writeFunc = writeFunc
         self.builder = gtk.Builder()
         self.builder.add_from_file("interface/ui.glade")
@@ -34,22 +34,22 @@ class Gui:
         self.inputcache_stack1 = []
         self.inputcache_stack2 = []
         self.lockfocus = False
-        
+
 
     def run(self):
         gtk.gdk.threads_init()
         gtk.main()
-        
+
     def on_window1_destroy(self, data ):
         self.destroyed = True
         logging.info("Shutting down GTK")
         gtk.main_quit()
-        
+
     def write(self, text):
         self.buffer.place_cursor(self.buffer.get_end_iter())
         self.buffer.insert_at_cursor(str(text))
         self.output.scroll_to_mark(self.end_text, 0.05, True, 0.0, 1.0)
-        
+
     def on_input_return_pressed(self, data):
         text = self.input.get_text()
         self.writeFunc(text)
@@ -58,25 +58,25 @@ class Gui:
         self.inputcache_stack2 = []
         if text is not "":
             self.inputcache_stack1.append(text)
-        
+
     def on_input_key_pressed(self, widget, data2):
         if gtk.gdk.keyval_name(data2.keyval) == "Up":
             if len(self.inputcache_stack1) > 0:
                 self.inputcache_stack2.append(self.input.get_text())
                 self.input.set_text(self.inputcache_stack1.pop())
-                                    
+
         if gtk.gdk.keyval_name(data2.keyval) == "Down":
             if len(self.inputcache_stack2) > 0:
                 self.inputcache_stack1.append(self.input.get_text())
                 self.input.set_text(self.inputcache_stack2.pop())
         self.lockfocus = True
-                
+
     def on_input_focus_lost(self, widget, data):
         if self.lockfocus:
             self.input.grab_focus()
             self.lockfocus = False
-        
-        
+
+
     def color_changed(self, data):
         color = self.color.get_current_color()
         if self.builder.get_object("texttoggle").get_active():
@@ -85,15 +85,14 @@ class Gui:
         else:
             self.output.modify_base(gtk.STATE_NORMAL, color)
             self.config["gui/color/bg"] = color.to_string()
-            
+
     def on_bgtoggle_toggle(self, data):
         if self.builder.get_object("texttoggle").get_active():
             self.color.set_current_color(gtk.gdk.color_parse(self.config["gui/color/text"]))
         else:
             self.color.set_current_color(gtk.gdk.color_parse(self.config["gui/color/bg"]))
-        
-    
-    
-    
-        
-        
+
+
+
+
+
