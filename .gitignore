@@ -1,4 +1,5 @@
 *.pyc
 *~
+*.db
 /nbproject/private/
-/src/riso.db
+
