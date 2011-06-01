@@ -1,12 +1,9 @@
 # This script comes without any warranty or support.
 # Use on own risk and fun.
 
-import logging
-
-from classes.config_manager import ConfigManager
 from events import event
 
-class EvenQuit(event.Event):
+class EventQuit(event.Event):
 
     def __init__(self, parser):
 
@@ -30,5 +27,5 @@ class EvenQuit(event.Event):
         return line
 
 def __init__(parser):
-    return EvenQuit(parser)
+    return EventQuit(parser)
 

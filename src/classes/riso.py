@@ -115,7 +115,7 @@ class Riso(object):
             logging.error("Trying to sent line without socket: %s" % line)
             return
 
-        self.gui.write(line)
+        self.gui.write("%s\n" % line)
         line = "%s\n" % self.parser.user_line(line)        
         if line:
             self.socket.write("%s" % line)
