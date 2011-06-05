@@ -2,7 +2,7 @@ import gtk.gdk
 import logging
 from gtk import *
 
-__author__  = "Robert Heumueller <robert@heum.de"
+__author__  = "Robert Heumueller <robert@heum.de>"
 __date__    = "$25.05.2011 12:00:00$"
 
 
