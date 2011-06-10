@@ -1,5 +1,6 @@
 import gtk.gdk
 import logging
+from trie import Trie
 from gtk import *
 
 __author__  = "Robert Heumueller <robert@heum.de>"
@@ -33,6 +34,7 @@ class Gui:
         self.mainwindow.show_all()
         self.inputcache_stack1 = []
         self.inputcache_stack2 = []
+        self.cache = Trie()
         self.lockfocus = False
 
 
@@ -49,6 +51,7 @@ class Gui:
         self.buffer.place_cursor(self.buffer.get_end_iter())
         self.buffer.insert_at_cursor(str(text))
         self.output.scroll_to_mark(self.end_text, 0.05, True, 0.0, 1.0)
+        self.cache.addSentence(text)
 
     def on_input_return_pressed(self, data):
         text = self.input.get_text()
@@ -64,11 +67,12 @@ class Gui:
             if len(self.inputcache_stack1) > 0:
                 self.inputcache_stack2.append(self.input.get_text())
                 self.input.set_text(self.inputcache_stack1.pop())
-
         if gtk.gdk.keyval_name(data2.keyval) == "Down":
             if len(self.inputcache_stack2) > 0:
                 self.inputcache_stack1.append(self.input.get_text())
                 self.input.set_text(self.inputcache_stack2.pop())
+        if gtk.gdk.keyval_name(data2.keyval) == "F1":
+            self.input.set_text(str(self.cache.matching(self.input.get_text())))
         self.lockfocus = True
 
     def on_input_focus_lost(self, widget, data):
