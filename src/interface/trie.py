@@ -1,6 +1,8 @@
 #Python Trie Implementation
 #Coded by Robert Heumueller
 
+#memo: tupel aus vorherigem buchstaben und knoten speichern!
+
 __author__  = "Robert Heumueller <robert@heum.de>"
 __date__    = "$10.06.2011 23:54:00$"
 
@@ -8,7 +10,41 @@ import logging
 import sys
 import string
 
-
+class DictTrie(object):
+	leaves = []
+	def __init__(self):
+		self.root = TrieNode()
+		self.gen = None
+	
+	def addWord(self, word):
+		self.root.addWord(word)
+		
+	def getnext(self):
+		for leaf in DictTrie.leaves:
+			temp = leaf
+			word = ""
+			while not temp.prevchr == '':
+				word = leaf.prevchr + word
+				temp = leaf
+			yield word
+		raise StopIteration
+	
+class TrieNode(object):
+	def __init__(self, word = ""):
+		self.children = {}
+		self.prevchr = ''
+		DictTrie.leaves.append(self)
+		if word == "":
+			return
+		self.addWord(word)
+		
+	def addWord(self, word):
+		if not self.children.has_key(word[0]):
+			self.children[word[0]] = TrieNode(word[1:])
+		else:
+			self.children[word[0]].addWord(word[1:])
+		DictTrie.leaves.remove(self)
+		self.children[word[0]].prevchr = word[0]
 
 class Trie(object):
 	count = 0
@@ -62,9 +98,10 @@ class Trie(object):
 					
 if __name__ == "__main__":
 	logging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format='%(asctime)s %(message)s')
-	test = Trie()
-	test.addSentence("Hallo Welt! Wie geht es dir?") 
-	print test.matching("w")
+	test = DictTrie()
+	test.addWord("Hallo")
+	
+
 
 					
 	
