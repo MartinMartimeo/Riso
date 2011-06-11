@@ -1,6 +1,6 @@
 import gtk.gdk
 import logging
-from trie import Trie
+from trie import DictTrie
 from gtk import *
 
 __author__  = "Robert Heumueller <robert@heum.de>"
@@ -34,7 +34,7 @@ class Gui:
         self.mainwindow.show_all()
         self.inputcache_stack1 = []
         self.inputcache_stack2 = []
-        self.cache = Trie()
+        self.cache = DictTrie()
         self.lockfocus = False
 
 
@@ -51,7 +51,7 @@ class Gui:
         self.buffer.place_cursor(self.buffer.get_end_iter())
         self.buffer.insert_at_cursor(str(text))
         self.output.scroll_to_mark(self.end_text, 0.05, True, 0.0, 1.0)
-        self.cache.addSentence(text)
+        self.cache.extend(text.split(" "))
 
     def on_input_return_pressed(self, data):
         text = self.input.get_text()
