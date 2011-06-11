@@ -72,7 +72,7 @@ class Gui:
                 self.inputcache_stack1.append(self.input.get_text())
                 self.input.set_text(self.inputcache_stack2.pop())
         if gtk.gdk.keyval_name(data2.keyval) == "F1":
-            self.input.set_text(str(self.cache.matching(self.input.get_text())))
+            self.input.set_text(self.input.get_text()+str(self.cache.matching(self.input.get_text().split(" ").pop().strip())))
         self.lockfocus = True
 
     def on_input_focus_lost(self, widget, data):
