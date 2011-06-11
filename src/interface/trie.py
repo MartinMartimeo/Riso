@@ -11,10 +11,19 @@ import string
 class DictTrie(object):
 	leaves = []
 	min_length = 5
+	delete_table  = string.maketrans(
+		string.ascii_lowercase, ' ' * len(string.ascii_lowercase)
+	)
 	def __init__(self):
 		self.root = TrieNode(root = True)
 	
 	def addWord(self, word):
+		word = word.lower()
+		word = word.strip()
+		word = word.encode("ascii", "ignore")
+		word = word.translate(None, DictTrie.delete_table)
+		if len(word) < DictTrie.min_length:
+			return
 		self.root.addWord(word)
 		
 	def extend(self, l):
@@ -29,9 +38,6 @@ class DictTrie(object):
 
 	
 class TrieNode(object):
-	delete_table  = string.maketrans(
-		string.ascii_lowercase, ' ' * len(string.ascii_lowercase)
-	)
 	def __init__(self, word = "", root = False):
 		self.isroot = root
 		self.children = {}
@@ -41,13 +47,8 @@ class TrieNode(object):
 		self.addWord(word)
 		
 	def addWord(self, word):
-		word = word.lower()
-		word = word.strip()
-		word = word.encode("ascii", "ignore")
-		word = word.translate(None, TrieNode.delete_table)
 		if len(word) == 0:
 			return
-		
 		if not self.children.has_key(word[0]):
 			self.children[word[0]] = TrieNode(word[1:])
 		else:
@@ -65,7 +66,7 @@ class TrieNode(object):
 		else:
 			words.append(cur)
 		if self.isroot:
-			return [w for w in words if w.startswith(prefix)]
+			return list(set([w for w in words if w.startswith(prefix)])) #not nice
 
 					
 if __name__ == "__main__":
@@ -78,8 +79,8 @@ if __name__ == "__main__":
 	test.addWord("Weltuntergang")
 	test.addWord("Morgen")
 	
-	for a in test:
-		print a
+	print test.matching("")
+	print test.matching("")
 	
 
 
